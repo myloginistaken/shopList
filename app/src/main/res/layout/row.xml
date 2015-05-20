@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout>
+        <CheckedTextView
+            android:id="@+id/check"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:gravity="left"
+            android:textSize="18sp"
+            android:textStyle="normal"
+            android:layout_marginTop="10dp"
+            android:paddingBottom="20dp"
+            android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+            android:onClick="changeTableState"
+            />
+        <Button
+            android:id="@+id/showMore"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30dp"
+            android:text="..."
+            android:onClick="showText"
+            android:layout_alignTop="@id/check"
+            android:layout_alignParentRight="true"
+            />
+    </RelativeLayout>
+
+</TableRow>

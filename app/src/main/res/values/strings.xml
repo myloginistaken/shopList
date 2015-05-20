@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ShopList</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_clear">Delete checked items</string>
+    <string name="action_info">Info</string>
+    <string name="ok">OK</string>
+    <string name="info_text">ShopList app is a useful application for making some short notes like lists of products to buy.
+Developed as a test assignment for Mobilab by Anton Prokopov</string>
+
+</resources>
