@@ -6,25 +6,27 @@ import android.os.Parcelable;
 /**
  * Created by anton on 15.05.15.
  */
-public class ListItem implements Parcelable{
+public class ListItem implements Parcelable {
 
     private String name;
     private boolean isChecked;
 
-    ListItem(String name){
+    ListItem(String name) {
         this.name = name;
         isChecked = false;
     }
-    ListItem(String name, boolean isChecked){
+
+    ListItem(String name, boolean isChecked) {
         this.name = name;
         this.isChecked = isChecked;
     }
+
     private ListItem(Parcel in) {
         this.name = in.readString();
         this.isChecked = in.readByte() != 0;
     }
 
-    public boolean checkItem(){
+    public boolean checkItem() {
         return this.isChecked;
     }
 
@@ -32,7 +34,7 @@ public class ListItem implements Parcelable{
         return 0;
     }
 
-    public String toString(){
+    public String toString() {
         return this.name;
     }
 

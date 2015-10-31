@@ -19,7 +19,6 @@ import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -35,19 +34,20 @@ public class MainActivity extends ActionBarActivity {
     private ArrayList<ListItem> items;
     private EditText input;
     private int STRING_LENGTH = 30;
-    private String filename = "shopListCurrentState.csv";;
+    private String filename = "shopListCurrentState.csv";
+    ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if(savedInstanceState == null || !savedInstanceState.containsKey("listItems")) {
+        if (savedInstanceState == null || !savedInstanceState.containsKey("listItems")) {
             items = new ArrayList<>();
             //if there is a file with list items, populate this list with those previously saved items
             try {
                 readFromFile();
-            } catch (IOException io){
+            } catch (IOException io) {
                 Log.e("READ", "IO Exception");
             }
         } else {
@@ -58,8 +58,7 @@ public class MainActivity extends ActionBarActivity {
         input.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(actionId == EditorInfo.IME_ACTION_DONE)
-                {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
                     addItem(input);
                 }
                 return false;
@@ -100,12 +99,12 @@ public class MainActivity extends ActionBarActivity {
             alert11.show();
             return true;
         }
-        if (id == R.id.action_clear){
+        if (id == R.id.action_clear) {
             saveDataToFile();
             //prepare items to delete
             ArrayList newItems = new ArrayList<>();
-            for(int i=0;i<items.size();i++){
-                if(!items.get(i).checkItem()){
+            for (int i = 0; i < items.size(); i++) {
+                if (!items.get(i).checkItem()) {
                     newItems.add(items.get(i));
                 }
             }
@@ -120,7 +119,7 @@ public class MainActivity extends ActionBarActivity {
     // Handle data save on activity rotation
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        if (items!=null) {
+        if (items != null) {
             outState.putParcelableArrayList("listItems", items);
         }
         super.onSaveInstanceState(outState);
@@ -133,11 +132,11 @@ public class MainActivity extends ActionBarActivity {
         super.onRestoreInstanceState(savedInstanceState);
     }
 
-    private void fillTable(){
-        TableLayout tl=(TableLayout) this.findViewById(R.id.maintable);
+    private void fillTable() {
+        TableLayout tl = (TableLayout) this.findViewById(R.id.maintable);
         //first step is to clean the previous table
         tl.removeAllViews();
-        if(items.size() != 0) {
+        if (items.size() != 0) {
             //second step is to fill it again after the change
             for (int i = 0; i < items.size(); i++) {
                 TableRow row = (TableRow) LayoutInflater.from(this).inflate(R.layout.row, null);
@@ -147,12 +146,12 @@ public class MainActivity extends ActionBarActivity {
                 chk.setText(cutString(items.get(i).toString()));
                 Button button = ((Button) row.findViewById(R.id.showMore));
                 button.setId(i);
-                if(items.get(i).toString().length()>=STRING_LENGTH){
+                if (items.get(i).toString().length() >= STRING_LENGTH) {
                     button.setVisibility(View.VISIBLE);
                 } else {
                     button.setVisibility(View.GONE);
                 }
-                if(items.get(i).checkItem()){
+                if (items.get(i).checkItem()) {
                     chk.setChecked(true);
                     chk.setPaintFlags(chk.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                 } else {
@@ -163,15 +162,14 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-    public void changeTableState(View v){
-        CheckedTextView chk = (CheckedTextView)v;
+    public void changeTableState(View v) {
+        CheckedTextView chk = (CheckedTextView) v;
         int chkId = chk.getId();
         chk.toggle();
-        if(items.get(chkId).checkItem()){
+        if (items.get(chkId).checkItem()) {
             items.set(chkId, new ListItem(items.get(chkId).toString(), false));
-            chk.setPaintFlags( chk.getPaintFlags() & (~ Paint.STRIKE_THRU_TEXT_FLAG));
-        }
-        else {
+            chk.setPaintFlags(chk.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+        } else {
             items.set(chkId, new ListItem(items.get(chkId).toString(), true));
             chk.setPaintFlags(chk.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         }
@@ -179,8 +177,8 @@ public class MainActivity extends ActionBarActivity {
         saveDataToFile();
     }
 
-    public void addItem(View v){
-        if(!input.getText().toString().equals("")) {
+    public void addItem(View v) {
+        if (!input.getText().toString().equals("")) {
             items.add(new ListItem(input.getText().toString()));
             fillTable();
         }
@@ -189,15 +187,15 @@ public class MainActivity extends ActionBarActivity {
         input.setText("");
     }
 
-    private void saveDataToFile(){
+    private void saveDataToFile() {
         String data = "";
         //create file
         new File(getApplicationContext().getFilesDir(), filename);
         FileOutputStream outputStream;
 
         for (int i = 0; i < items.size(); i++) {
-            if(!items.get(i).checkItem()) {
-                data += items.get(i).toString()+'\n';
+            if (!items.get(i).checkItem()) {
+                data += items.get(i).toString() + '\n';
             }
         }
         //write to file
@@ -210,7 +208,7 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-    private void readFromFile() throws IOException{
+    private void readFromFile() throws IOException {
         FileInputStream in = openFileInput(filename);
         InputStreamReader inputStreamReader = new InputStreamReader(in);
         BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
@@ -220,17 +218,18 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-    private String cutString(String source){
+    private String cutString(String source) {
         String prepared;
-        if(source.length()>=STRING_LENGTH){
+        if (source.length() >= STRING_LENGTH) {
             prepared = source.substring(0, STRING_LENGTH);
         } else {
             prepared = source;
         }
         return prepared;
     }
-    public void showText(View v){
-        Button button = (Button)v;
+
+    public void showText(View v) {
+        Button button = (Button) v;
         int id = button.getId();
         AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
         builder1.setMessage(items.get(id).toString());
